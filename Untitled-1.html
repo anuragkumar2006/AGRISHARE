@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriShare - Rent Machine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .rent-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .list-btn {
+            background-color: #fff;
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+        
+        .nav-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            display: flex;
+            margin: 30px auto;
+            gap: 30px;
+            max-width: 1000px;
+        }
+        
+        .booking-section {
+            flex: 3;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pricing-section {
+            flex: 1;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #2ecc71;
+            box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
+        }
+        
+        .payment-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .payment-option {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-option:hover {
+            border-color: #2ecc71;
+        }
+        
+        .payment-option.selected {
+            border-color: #2ecc71;
+            background-color: rgba(46, 204, 113, 0.1);
+        }
+        
+        .confirm-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .confirm-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2ecc71;
+            margin: 15px 0;
+        }
+        
+        .price-details {
+            margin-top: 20px;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .total-row {
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            font-weight: bold;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-tractor"></i>
+                AgriShare
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn rent-btn">Rent Machine</button>
+                <button class="nav-btn list-btn">List Your Machine</button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="booking-section">
+                <h2 class="section-title">Booking Details</h2>
+                
+                <div class="form-group">
+                    <label for="machine-type">Machine Type</label>
+                    <select id="machine-type" class="form-control">
+                        <option value="">Select Machine Type</option>
+                        <option value="tractor">Tractor</option>
+                        <option value="harvester">Harvester</option>
+                        <option value="plow">Plow</option>
+                        <option value="seeder">Seeder</option>
+                        <option value="sprayer">Sprayer</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="booking-date">Date</label>
+                    <input type="date" id="booking-date" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="booking-time">Time</label>
+                    <input type="time" id="booking-time" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="duration">Duration (hours)</label>
+                    <input type="number" id="duration" class="form-control" min="1" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" class="form-control" placeholder="Enter your location">
+                </div>
+                
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <div class="payment-options">
+                        <div class="payment-option selected" data-method="upi">
+                            <i class="fas fa-mobile-alt"></i>
+                            <p>UPI</p>
+                        </div>
+                        <div class="payment-option" data-method="card">
+                            <i class="fas fa-credit-card"></i>
+                            <p>Card</p>
+                        </div>
+                        <div class="payment-option" data-method="cash">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <p>Cash</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="confirm-btn">Confirm Booking</button>
+            </div>
+            
+            <div class="pricing-section">
+                <h2 class="section-title">Pricing Summary</h2>
+                
+                <div class="price">₹400 / hour</div>
+                
+                <div class="price-details">
+                    <div class="price-row">
+                        <span>Base Price:</span>
+                        <span id="base-price">₹400</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Duration:</span>
+                        <span id="duration-display">1 hour</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Service Fee:</span>
+                        <span id="service-fee">₹40</span>
+                    </div>
+                    <div class="price-row total-row">
+                        <span>Total:</span>
+                        <span id="total-price">₹440</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Payment option selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.payment-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+        
+        // Calculate total price based on duration
+        const durationInput = document.getElementById('duration');
+        const basePriceElement = document.getElementById('base-price');
+        const durationDisplay = document.getElementById('duration-display');
+        const serviceFeeElement = document.getElementById('service-fee');
+        const totalPriceElement = document.getElementById('total-price');
+        
+        const hourlyRate = 400;
+        const serviceFeeRate = 0.1; // 10% service fee
+        
+        function updatePricing() {
+            const duration = parseInt(durationInput.value) || 1;
+            const basePrice = hourlyRate * duration;
+            const serviceFee = Math.round(basePrice * serviceFeeRate);
+            const total = basePrice + serviceFee;
+            
+            basePriceElement.textContent = `₹${basePrice}`;
+            durationDisplay.textContent = `${duration} hour${duration > 1 ? 's' : ''}`;
+            serviceFeeElement.textContent = `₹${serviceFee}`;
+            totalPriceElement.textContent = `₹${total}`;
+        }
+        
+        durationInput.addEventListener('input', updatePricing);
+        
+        // Initialize pricing
+        updatePricing();
+        
+        // Set minimum date to today
+        const dateInput = document.getElementById('booking-date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+        
+        // Handle confirm booking
+        document.querySelector('.confirm-btn').addEventListener('click', function() {
+            const machineType = document.getElementById('machine-type').value;
+            const date = document.getElementById('booking-date').value;
+            const time = document.getElementById('booking-time').value;
+            const duration = document.getElementById('duration').value;
+            const location = document.getElementById('location').value;
+            const paymentMethod = document.querySelector('.payment-option.selected').dataset.method;
+            
+            if (!machineType || !date || !time || !location) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Here you would normally send this data to a server
+            console.log({
+                machineType,
+                date,
+                time,
+                duration,
+                location,
+                paymentMethod
+            });
+            
+            // Show success message
+            alert('Booking confirmed! You will receive a confirmation shortly.');
+        });
+    </script>
+</body>
+</html>           

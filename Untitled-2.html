@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Machine - AgriShare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .image-upload {
+            border: 2px dashed #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .image-upload:hover {
+            border-color: #4CAF50;
+        }
+        
+        .image-upload p {
+            color: #777;
+            margin-top: 10px;
+        }
+        
+        .upload-icon {
+            font-size: 40px;
+            color: #4CAF50;
+        }
+        
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background-color: #45a049;
+        }
+        
+        .btn-container {
+            text-align: right;
+            margin-top: 30px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4CAF50;
+        }
+        
+        .logo span {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Agri<span>Share</span></div>
+            <div class="user-info">John Doe</div>
+        </div>
+        
+        <h1>Add Machine</h1>
+        
+        <form id="machine-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="machine-type">Machine Type</label>
+                    <select id="machine-type" name="machine-type" required>
+                        <option value="">Select Type</option>
+                        <option value="tractor">Tractor</option>
+                        <option value="harvester">Harvester</option>
+                        <option value="plow">Plow</option>
+                        <option value="seeder">Seeder</option>
+                        <option value="sprayer">Sprayer</option>
+                        <option value="tiller">Tiller</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brand">Brand</label>
+                    <select id="brand" name="brand" required>
+                        <option value="">Select Brand</option>
+                        <option value="john-deere">John Deere</option>
+                        <option value="case-ih">Case IH</option>
+                        <option value="new-holland">New Holland</option>
+                        <option value="massey-ferguson">Massey Ferguson</option>
+                        <option value="kubota">Kubota</option>
+                        <option value="agco">AGCO</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="model">Model</label>
+                    <input type="text" id="model" name="model" placeholder="Enter model" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="horsepower">Horsepower</label>
+                    <input type="number" id="horsepower" name="horsepower" placeholder="Enter horsepower" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="images">Upload Images</label>
+                <div class="image-upload" id="image-upload">
+                    <div class="upload-icon">📷</div>
+                    <p>Click to upload images</p>
+                    <input type="file" id="images" name="images" accept="image/*" multiple style="display: none;">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="price-hour">Price per hour ($)</label>
+                    <input type="number" id="price-hour" name="price-hour" placeholder="0.00" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="price-acre">Price per acre ($)</label>
+                    <input type="number" id="price-acre" name="price-acre" placeholder="0.00" step="0.01" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="fuel-policy">Fuel Policy</label>
+                <textarea id="fuel-policy" name="fuel-policy" rows="3" placeholder="Enter fuel policy details"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="availability">Availability</label>
+                <textarea id="availability" name="availability" rows="3" placeholder="Enter availability information"></textarea>
+            </div>
+            
+            <div class="btn-container">
+                <button type="submit" class="btn">Add Machine</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('image-upload').addEventListener('click', function() {
+            document.getElementById('images').click();
+        });
+        
+        document.getElementById('machine-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Form submission logic would go here
+            alert('Machine added successfully!');
+        });
+    </script>
+</body>
+</html>

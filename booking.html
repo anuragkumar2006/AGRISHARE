@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agroshare - Book Machine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root{--primary:#2e7d32;
+        --primary-dark:#1b5e20;
+        --bg:#f4f7f2;
+        --card:#fff;
+        --shadow:0 3px 10px rgba(0,0,0,0.08);
+        --radius:12px;
+    }
+    *{box-sizing:border-box;
+        margin:0;padding:0;
+        font-family:system-ui,-apple-system,'Segoe UI',sans-serif;
+    }
+    body{
+        background:var(--bg);color:#222;
+    }
+    header{
+        background:#fff;
+        box-shadow:var(--shadow);
+    }
+    .nav{
+        max-width:900px;
+        margin:0 auto;
+        padding:0.7rem 1.2rem;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
+    .logo{
+        display:flex;
+        align-items:center;
+        gap:0.4rem;
+        font-weight:700;
+        color:var(--primary-dark);
+    }
+    .logo-icon{
+        width:24px;
+        height:24px;
+        border-radius:50%;
+        background:linear-gradient(135deg,#66bb6a,#aed581);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:0.8rem;
+        color:#fff;
+    }
+    main{
+        max-width:900px;
+        margin:1.4rem auto 2rem;
+        padding:0 1.2rem;
+        display:grid;
+        grid-template-columns: minmax(0,1.3fr) minmax(0,0.9fr);
+        gap:1rem;
+    }
+    .card{
+        background:var(--card);
+        border-radius:var(--radius);
+        box-shadow:var(--shadow);
+        padding:1rem;
+    }
+    h1{
+        font-size:1.3rem;
+        margin-bottom:0.4rem;
+        color:var(--primary-dark);
+    }
+    h2{
+        font-size:1.1rem;
+        margin-bottom:0.4rem;
+        color:var(--primary-dark);
+    }
+    .machine-meta{
+        font-size:0.88rem;
+        color:#555;
+        margin-bottom:0.5rem;
+    }
+    .pill{
+        display:inline-block;
+        padding:0.2rem 0.6rem;
+        border-radius:999px;
+        background:#e8f5e9;
+        color:#1b5e20;
+        font-size:0.75rem;
+        margin-right:0.3rem;
+    }
+    .price{
+        font-weight:600;
+        margin:0.4rem 0;
+        font-size:0.95rem;
+        color:#1b5e20;
+    }
+    label{
+        display:block;
+        font-size:0.8rem;
+        margin-bottom:0.15rem;
+        color:#555;
+    }
+    input,select,textarea{
+        width:100%;
+        padding:0.55rem 0.7rem;
+        border-radius:8px;
+        border:1px solid #ddd;
+        font-size:0.9rem;
+        margin-bottom:0.5rem;
+    }
+    input:focus,select:focus,textarea:focus{
+        outline:none;
+        border-color:var(--primary);
+        box-shadow:0 0 0 2px rgba(46,125,50,0.15);
+    }
+    textarea{
+        min-height:70px;
+        resize:vertical;
+    }
+    .row{
+        display:flex;
+        gap:0.6rem;
+        flex-wrap:wrap;
+    }
+    .row>div{
+        flex:1;
+        min-width:140px;
+    }
+    .summary-line{
+        display:flex;
+        justify-content:space-between;
+        font-size:0.88rem;
+        margin:0.15rem 0;
+    }
+    .summary-line.total{
+        font-weight:700;
+        border-top:1px solid #eee;
+        padding-top:0.25rem;
+        margin-top:0.3rem;
+    }
+    button{
+        border:none;
+        border-radius:999px;
+        background:var(--primary);
+        color:#fff;
+        padding:0.7rem 1.3rem;
+        font-size:0.95rem;
+        font-weight:600;
+        cursor:pointer;
+        margin-top:0.4rem;
+        width:100%;
+    }
+    button:hover{
+        background:var(--primary-dark);
+    }
+    #message{
+        font-size:0.85rem;
+        margin-top:0.5rem;
+        display:none;
+    }
+    #message.error{
+        color:#c62828;
+    }
+    #message.success{
+        color:#2e7d32;
+    }
+    @media(max-width:900px){main{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="logo">
+      <div class="logo-icon">🚜</div><span>AgriShare</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="card" id="machine-card">
+    <h1>Book Machine</h1>
+    <div id="machine-loading">Loading machine details...</div>
+    <div id="machine-details" style="display:none;">
+      <div id="machine-title" style="font-weight:600;margin-bottom:0.3rem;"></div>
+      <div class="machine-meta" id="machine-meta"></div>
+      <div id="machine-price" class="price"></div>
+      <div id="machine-extra" class="machine-meta"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Booking Details</h2>
+    <form id="booking-form">
+      <div class="row">
+        <div>
+          <label for="bookingType">Booking Type</label>
+          <select id="bookingType" required>
+            <option value="per_hour">Per Hour</option>
+            <option value="per_acre">Per Acre</option>
+          </select>
+        </div>
+        <div>
+          <label for="startDate">Start Date</label>
+          <input type="date" id="startDate" required />
+        </div>
+        <div id="endDateGroup">
+          <label for="endDate">End Date</label>
+          <input type="date" id="endDate" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div id="hoursGroup">
+          <label for="hours">Estimated Hours</label>
+          <input type="number" id="hours" min="1" value="4" />
+        </div>
+        <div id="acreGroup" style="display:none;">
+          <label for="acreage">Field Size (Acre)</label>
+          <input type="number" id="acreage" min="0.1" step="0.1" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="cropType">Crop Type</label>
+          <input type="text" id="cropType" placeholder="E.g. Paddy, Wheat" />
+        </div>
+        <div>
+          <label for="paymentMethod">Payment Method</label>
+          <select id="paymentMethod">
+            <option value="upi">UPI</option>
+            <option value="wallet">Wallet</option>
+            <option value="card">Debit Card</option>
+            <option value="cash">Cash on Service</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="address">Service Address</label>
+      <textarea id="address" placeholder="Village, Landmark, Contact number"></textarea>
+
+      <div style="margin-top:0.4rem;">
+        <strong>Price Summary</strong>
+        <div class="summary-line">
+          <span>Base price</span><span id="summary-base">₹0</span>
+        </div>
+        <div class="summary-line">
+          <span>Estimated fuel & extras</span><span id="summary-extra">₹0</span>
+        </div>
+        <div class="summary-line total">
+          <span>Estimated total</span><span id="summary-total">₹0</span>
+        </div>
+        <small style="font-size:0.78rem;color:#888;">
+          Final price may vary slightly based on actual hours used. You can pay advance now and remaining after service.
+        </small>
+      </div>
+
+      <button type="submit">Confirm Booking</button>
+      <div id="message"></div>
+    </form>
+  </section>
+</main>
+
+<script>
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = 'signup.html';
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const machineId = params.get('machineId');
+
+  if (!machineId) {
+    document.getElementById('machine-loading').textContent = 'No machine selected. Go back and choose a machine.';
+  }
+
+  let machineData = null;
+
+  const bookingTypeEl = document.getElementById('bookingType');
+  const hoursGroup = document.getElementById('hoursGroup');
+  const acreGroup = document.getElementById('acreGroup');
+  const hoursEl = document.getElementById('hours');
+  const acreageEl = document.getElementById('acreage');
+  const baseEl = document.getElementById('summary-base');
+  const extraEl = document.getElementById('summary-extra');
+  const totalEl = document.getElementById('summary-total');
+  const messageEl = document.getElementById('message');
+
+  bookingTypeEl.addEventListener('change', () => {
+    if (bookingTypeEl.value === 'per_hour') {
+      hoursGroup.style.display = 'block';
+      acreGroup.style.display = 'none';
+    } else {
+      hoursGroup.style.display = 'none';
+      acreGroup.style.display = 'block';
+    }
+    updatePrice();
+  });
+
+  [hoursEl, acreageEl].forEach(el => el.addEventListener('input', updatePrice));
+
+  function updatePrice() {
+    if (!machineData) return;
+    const perHour = machineData.hourlyRate || machineData.pricing?.perHour || 0;
+    const perAcre = machineData.pricing?.perAcre || 0;
+    let base = 0;
+
+    if (bookingTypeEl.value === 'per_hour') {
+      const hrs = Number(hoursEl.value || 0);
+      base = perHour * hrs;
+    } else {
+      const ac = Number(acreageEl.value || 0);
+      base = perAcre * ac;
+    }
+
+    const extras = Math.round(base * 0.1); // 10% rough fuel/extras
+    baseEl.textContent = '₹' + (base || 0);
+    extraEl.textContent = '₹' + (extras || 0);
+    totalEl.textContent = '₹' + (base + extras || 0);
+  }
+
+  async function loadMachine() {
+    try {
+      const res = await fetch('/api/machines/' + encodeURIComponent(machineId));
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed');
+      machineData = data;
+
+      document.getElementById('machine-loading').style.display = 'none';
+      document.getElementById('machine-details').style.display = 'block';
+      document.getElementById('machine-title').textContent =
+        (data.type || 'Machine') + ' • ' + (data.model || '');
+      document.getElementById('machine-meta').innerHTML =
+        Brand: ${data.brand || 'NA'} • HP: ${data.horsepower || 'NA'}<br> +
+        Location: ${data.location || data.locationText || 'NA'};
+      const perHour = data.hourlyRate || data.pricing?.perHour || 0;
+      const perAcre = data.pricing?.perAcre;
+      document.getElementById('machine-price').textContent =
+        ₹${perHour}/hour + (perAcre ? ` • ₹${perAcre}/acre` : '');
+      document.getElementById('machine-extra').textContent =
+        data.description || '';
+
+      updatePrice();
+    } catch (err) {
+      console.error(err);
+      document.getElementById('machine-loading').textContent =
+        'Failed to load machine. Please go back and try again.';
+    }
+  }
+
+  function showMessage(msg, type='error') {
+    messageEl.textContent = msg;
+    messageEl.className = type;
+    messageEl.style.display = 'block';
+  }
+
+  document.getElementById('booking-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    messageEl.style.display = 'none';
+
+    if (!machineData) {
+      return showMessage('Machine not loaded. Please refresh.', 'error');
+    }
+
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value || startDate;
+    const bookingType = bookingTypeEl.value;
+    const cropType = document.getElementById('cropType').value.trim();
+    const paymentMethod = document.getElementById('paymentMethod').value;
+    const address = document.getElementById('address').value.trim();
+
+    if (!startDate) {
+      return showMessage('Please select start date.', 'error');
+    }
+
+    const totalPriceNum = Number(totalEl.textContent.replace('₹','')) || 0;
+
+    const payload = {
+      machineId: machineData._id,
+      startDate,
+      endDate,
+      bookingType,
+      cropType,
+      paymentMethod,
+      address,
+      totalPrice: totalPriceNum,
+      basePrice: Number(baseEl.textContent.replace('₹','')) || 0
+    };
+
+    try {
+      const res = await fetch('/api/bookings', {
+        method:'POST',
+        headers: {
+          'Content-Type':'application/json',
+          'Authorization':'Bearer ' + token
+        },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return showMessage(data.message || 'Booking failed.', 'error');
+      }
+      showMessage('Booking created successfully! We have notified the owner.', 'success');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 900);
+    } catch (err) {
+      console.error(err);
+      showMessage('Network error. Please try again.', 'error');
+    }
+  });
+
+  if (machineId) loadMachine();
+</script>
+</body>
+</html>

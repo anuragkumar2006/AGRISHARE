@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriShare - Support</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c8c2c;
+        }
+        
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-btn {
+            background-color: #2c8c2c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background-color: #1e6b1e;
+        }
+        
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #f1f1f1;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        /* Main Content Styles */
+        .support-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding: 40px 0;
+        }
+        
+        .page-title {
+            font-size: 32px;
+            color: #2c8c2c;
+            margin-bottom: 20px;
+        }
+        
+        .content-wrapper {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .faq-section {
+            flex: 1;
+        }
+        
+        .faq-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .faq-list {
+            list-style: none;
+        }
+        
+        .faq-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .faq-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            margin-top: 10px;
+            color: #666;
+            display: none;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+        
+        .support-options {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .support-btn {
+            background-color: white;
+            border: 2px solid #2c8c2c;
+            color: #2c8c2c;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .support-btn:hover {
+            background-color: #2c8c2c;
+            color: white;
+        }
+        
+        .support-form {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .form-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #2c8c2c;
+        }
+        
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: #2c8c2c;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #1e6b1e;
+        }
+        
+        /* Chat Support Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+            max-height: 600px;
+        }
+        
+        .modal-header {
+            background-color: #2c8c2c;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .chat-send-btn {
+            background-color: #2c8c2c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2c8c2c;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">AgriShare</div>
+                <nav>
+                    <button class="nav-btn">Rent Machine</button>
+                    <button class="nav-btn">List Machine</button>
+                </nav>
+                <div class="language-selector">
+                    <i class="fas fa-globe"></i>
+                    <span>EN</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="support-container">
+            <h1 class="page-title">Support</h1>
+            
+            <div class="content-wrapper">
+                <div class="faq-section">
+                    <h2 class="faq-title">Frequently Asked Questions</h2>
+                    <ul class="faq-list">
+                        <li class="faq-item">
+                            <div class="faq-question">
+                                How do I book a machine?
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </div>
+                            <div class="faq-answer">
+                                To book a machine, navigate to the "Rent Machine" page, browse through available machines, select the one you need, choose your rental dates, and complete the booking process by providing your payment information.
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <div class="faq-question">
+                                Can I cancel a booking?
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Yes, you can cancel a booking up to 24 hours before the scheduled rental time. Go to "My Bookings" in your account, select the booking you wish to cancel, and click on the "Cancel Booking" button.
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <div class="faq-question">
+                                How do I list my machine?
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </div>
+                            <div class="faq-answer">
+                                To list your machine, click on the "List Machine" button in the navigation bar. Fill out the form with details about your machine, upload clear photos, set your rental price and availability, and submit your listing for approval.
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <div class="faq-question">
+                                What payment methods are accepted?
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </div>
+                            <div class="faq-answer">
+                                We accept various payment methods including credit/debit cards (Visa, Mastercard, American Express), PayPal, and bank transfers. All transactions are secured with industry-standard encryption.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="support-options">
+                    <button class="support-btn" id="chatSupportBtn">
+                        <i class="fas fa-comments"></i>
+                        Chat Support
+                    </button>
+                    <button class="support-btn" id="ticketSupportBtn">
+                        <i class="fas fa-ticket-alt"></i>
+                        Submit a Support Ticket
+                    </button>
+                </div>
+            </div>
+            
+            <div class="support-form" id="supportForm">
+                <h2 class="form-title">Submit a Support Ticket</h2>
+                <form id="ticketForm">
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" id="subject" class="form-input" placeholder="Brief description of your issue" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" class="form-textarea" placeholder="Please provide details about your issue" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chat Support Modal -->
+    <div class="modal" id="chatModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Chat Support</h3>
+                <button class="close-btn" id="closeChatBtn">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message support-message">
+                    <p>Hello! Welcome to AgriShare Support. How can I help you today?</p>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+                <button class="chat-send-btn" id="sendChatBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+         Chat Support Modal
+        const chatModal = document.getElementById('chatModal');
+        const chatSupportBtn = document.getElementById('chatSupportBtn');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        const chatInput = document.getElementById('chatInput');
+        const sendChatBtn = document.getElementById('sendChatBtn');
+        const chatMessages = document.getElementById('chatMessages');
+
+        chatSupportBtn.addEventListener('click', () => {
+            chatModal.style.display = 'flex';
+        });
+
+        closeChatBtn.addEventListener('click', () => {
+            chatModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === chatModal) {
+                chatModal.style.display = 'none';
+            }
+        });
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Add user message
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message user-message';
+                userMessage.innerHTML = `<p>${message}</p>`;
+                chatMessages.appendChild(userMessage);
+                
+                // Clear input
+                chatInput.value = '';
+                
+                // Simulate support response
+                setTimeout(() => {
+                    const supportMessage = document.createElement('div');
+                    supportMessage.className = 'message support-message';
+                    supportMessage.innerHTML = `<p>Thank you for your message. Our support team will respond shortly.</p>`;
+                    chatMessages.appendChild(supportMessage);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        sendChatBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Support Form
+        const supportForm = document.getElementById('supportForm');
+        const ticketSupportBtn = document.getElementById('ticketSupportBtn');
+        const ticketForm = document.getElementById('ticketForm');
+        const notification = document.getElementById('notification');
+
+        ticketSupportBtn.addEventListener('click', () => {
+            supportForm.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        ticketForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Here you would normally send the form data to your server
+            // For this example, we'll just show a notification
+            
+            showNotification('Your support ticket has been submitted successfully!');
+            
+            // Reset form
+            ticketForm.reset();
+        });
+
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Style for chat messages
+        const style = document.createElement('style');
+        style.textContent = `
+            .message {
+                margin-bottom: 15px;
+                max-width: 80%;
+            }
+            .user-message {
+                margin-left: auto;
+                background-color: #e1f5e1;
+                padding: 10px;
+                border-radius: 10px 10px 0 10px;
+            }
+            
+            .support-message {
+                background-color: #f1f1f1;
+                padding: 10px;
+                border-radius: 10px 10px 10px 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
